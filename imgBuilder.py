@@ -1,21 +1,39 @@
-#!/usr/bin/python
-
 from binascii import unhexlify
 from PIL import Image
- 
+import argparse
+
+def get_valid_typecode(typecode):
+    valid_typecodes = ["1", "L", "P", "RGB", "RGBA", "CMYK", "YCbCr", "I", "F"]
+    if typecode in valid_typecodes:
+        return typecode
+    print("Invalid typecode - Defaulting to RGB")
+    return "RGB"
+
 if __name__ == "__main__":
-	lit = raw_input("Hex string? ") 
-	width = raw_input("Width? ")
-	height = raw_input("Height? ")
-	typecode = raw_input("Enter the code of the mode you want: ")
-	if typecode != "1" and typecode != "L" and typecode != "P" and typecode != "RGB" and typecode != "RGBA" and typecode != "CMYK" and typecode != "YCbCr" and typecode != "I" and typecode != "F":
-		print "Invalid typecode - defaulting to RGB"
-	width = int(width)
-	height = int(height)
-	filename = raw_input("What do you want the filename to be? ")
-	arr = unhexlify(lit)
-	arr += " " * (width * height * 3 - len(arr))
-	img = Image.fromstring(typecode, (width, height), arr)
-	img.save(filename)
-	print "Saved %s successfully" % filename
-	print "Most magical!"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--file", help="Read hex string from a file")
+    parser.add_argument("-t", "--typecode", help="Specify the typecode")
+    parser.add_argument("-w", "--width", type=int, help="Specify the width")
+    parser.add_argument("-h", "--height", type=int, help="Specify the height")
+    args = parser.parse_args()
+
+    if args.file:
+        with open(args.file, 'r') as file:
+            lit = file.read().strip()
+    else:
+        lit = input("Hex string? ")
+
+    width = args.width if args.width else int(input("Width? "))
+    height = args.height if args.height else int(input("Height? "))
+    typecode = get_valid_typecode(args.typecode) if args.typecode else "RGB"
+
+    filename = input("What do you want the filename to be? ")
+
+    arr = unhexlify(lit)
+    arr += b" " * (width * height * 3 - len(arr))
+
+    img = Image.frombytes(typecode, (width, height), arr)
+    img.save(filename)
+
+    print(f"Saved {filename} successfully.")
+    print("Most magical!")
