@@ -1,4 +1,15 @@
-ImgBuilder is designed to convert a hex string into an image (png, jpg)
-On windows, files are saved to C:\Users\[YourUsername]
-PIL is necessary.
-Python 2.7 needed
+# Hex Image Converter
+
+The Hex Image Converter is a Python script that allows you to convert a hexadecimal string into an image file. It uses the Python Imaging Library (PIL) to create the image from the hex data.
+
+## Prerequisites
+
+- Python 3
+- Python Imaging Library (PIL) - You can install it using `pip install pillow`
+
+## Usage
+
+Run the script using the following command:
+
+   ```shell
+   python hex_image_converter.py [--file FILE] [--typecode TYPECODE] [--width WIDTH] [--height HEIGHT]```
