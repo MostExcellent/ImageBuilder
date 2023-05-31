@@ -12,4 +12,4 @@ The Hex Image Converter is a Python script that allows you to convert a hexadeci
 Run the script using the following command:
 
    ```shell
-   python hex_image_converter.py [--file FILE] [--typecode TYPECODE] [--width WIDTH] [--height HEIGHT]```
+   python hex_image_converter.py [--file FILE] [--typecode TYPECODE] [--width WIDTH] [--height HEIGHT]
